@@ -16,7 +16,7 @@ export class SignalRService {
   newMessage = new Subject<messageSubject>(); 
   
   connection = new signalR.HubConnectionBuilder()
-    .withUrl('http://3.239.163.241/chatHub')
+    .withUrl('https://slideflux.com/chatHub')
     .build();
 
   constructor() {
