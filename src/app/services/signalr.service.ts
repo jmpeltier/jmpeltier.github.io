@@ -16,7 +16,7 @@ export class SignalRService {
   newMessage = new Subject<messageSubject>(); 
   
   connection = new signalR.HubConnectionBuilder()
-    .withUrl('http://localhost:5261/chatHub')
+    .withUrl('http://3.239.163.241/chatHub')
     .build();
 
   constructor() {
