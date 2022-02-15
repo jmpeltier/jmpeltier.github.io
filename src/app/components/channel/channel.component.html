@@ -1,0 +1,31 @@
+<span style="color:white">Welcome {{userName}}!</span>
+
+<div class="card">
+  <div class="flex card-container blue-container overflow-hidden">
+    <div
+      class="flex-grow-1 flex align-items-left justify-content-left bg-white-500 font-bold text-white m-2 px-5 py-3 border-round">
+      <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '100%'}"
+        [numVisible]="6" [circular]="true" [showItemNavigators]="showNaviagation" [showThumbnails]="false" [(activeIndex)]="activeIndex">
+        <ng-template pTemplate="item" let-item>
+          <img [src]="item.previewImageSrc" style="width: 100%; display: block;" />
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+          <div class="grid grid-nogutter justify-content-center">
+            <img [src]="item.thumbnailImageSrc" style="display: block;" />
+          </div>
+        </ng-template>
+      </p-galleria>
+    </div>
+    <div
+      class="flex-none flex align-items-left justify-content-left bg-white-500 font-bold text-black m-2 px-5 py-3 border-round">
+      <p-scrollPanel [style]="{width: '100%', height: '500px'}" style="background-color: 'white'">
+        <div *ngFor='let chatMessage of chatMessages '> <span [style.color]="getColor(chatMessage.sender)">
+            {{chatMessage.sender }} : {{chatMessage.message}}</span><br /> </div>
+            <br/>
+            <input type="text" pInputText [(ngModel)]="messageToSend" />
+            <button pButton type="button" class="p-button-sm" label="Send" (click)="messageToSendClick($event)"></button>
+      </p-scrollPanel>
+    
+    </div>
+  </div>
+</div>

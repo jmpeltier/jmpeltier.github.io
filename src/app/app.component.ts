@@ -1,47 +1,40 @@
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewEncapsulation } from '@angular/core';
+import { ContractType } from './models/contracts';
+import { SignalRService } from './services/signalr.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   title = 'interviewApp';
+  showLogo: boolean = true;
 
-  images: any[]=[];
-
-  responsiveOptions: any[] = [
-    {
-      breakpoint: '1024px',
-      numVisible: 5,
-    },
-    {
-      breakpoint: '768px',
-      numVisible: 3,
-    },
-    {
-      breakpoint: '560px',
-      numVisible: 1,
-    },
-  ];
+  constructor(
+    private sr: SignalRService,
+    private elementRef: ElementRef
+  ) {}
 
   ngOnInit() {
-    this.images = [
-          {
-              "previewImageSrc": "https://raw.githubusercontent.com/primefaces/primeng/master/src/assets/showcase/images/galleria/galleria1.jpg",
-              "thumbnailImageSrc": "https://raw.githubusercontent.com/primefaces/primeng/master/src/assets/showcase/images/galleria/galleria1s.jpg",
-              "alt": "Description for Image 1",
-              "title": "Title 1"
-          },
-          {
-            "previewImageSrc": "https://raw.githubusercontent.com/primefaces/primeng/master/src/assets/showcase/images/galleria/galleria2.jpg",
-            "thumbnailImageSrc": "https://raw.githubusercontent.com/primefaces/primeng/master/src/assets/showcase/images/galleria/galleria2s.jpg",
-            "alt": "Description for Image 2",
-            "title": "Title 2"
-        }
+    this.sr.newMessage.subscribe((value) => {
+      // console.log('Subscription got', value); 
+      const msg = JSON.parse(value.message);
 
-        ];
-        console.log(this.images);
+      if (msg.type === ContractType.HideLogo) {
+        this.showLogo = !msg.hide;
+      }
+      if (msg.type === ContractType.ChangeBG) {
+        this.elementRef.nativeElement.ownerDocument
+        .body.style.backgroundColor = msg.bg;
+      }
+    
+    });
   }
+  ngAfterViewInit() {
+    this.elementRef.nativeElement.ownerDocument
+        .body.style.backgroundColor = '#08233d';
+}
 }

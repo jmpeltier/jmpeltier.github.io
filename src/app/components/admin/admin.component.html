@@ -1,0 +1,43 @@
+{{displayIndex}}
+
+<div class="card">
+  <div class="flex card-container blue-container overflow-hidden">
+    <div
+      class="flex-grow-1 flex align-items-left justify-content-left bg-white-500 font-bold text-white m-2 px-5 py-3 border-round">
+      <p-galleria [value]="images" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '100%'}"
+        [numVisible]="5" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false"
+        [(activeIndex)]="activeIndex">
+        <ng-template pTemplate="item" let-item>
+          <img [src]="item.previewImageSrc" style="width: 100%; display: block;" />
+        </ng-template>
+        <ng-template pTemplate="thumbnail" let-item>
+          <div class="grid grid-nogutter justify-content-center">
+            <img [src]="item.thumbnailImageSrc" style="display: block;" />
+          </div>
+        </ng-template>
+      </p-galleria>
+    </div>
+    <div
+      class="flex-none flex align-items-left justify-content-left bg-white-500 font-bold text-black m-2 px-5 py-3 border-round">
+        <p-scrollPanel [style]="{width: '100%', height: '500px'}" style="background-color: 'white'">
+          <div *ngFor='let chatMessage of chatMessages '> <span [style.color]="getColor(chatMessage.sender)">
+              {{chatMessage.sender }} : {{chatMessage.message}}</span><br /> </div>
+              <br/>
+              <input type="text" pInputText [(ngModel)]="messageToSend" />
+              <button pButton type="button" label="Send" class="p-button-sm" (click)="messageToSendClick($event)"></button>
+        </p-scrollPanel>
+    </div>
+  </div>
+</div>
+<div class="field-checkbox">
+  <p-checkbox [(ngModel)]="checked" [binary]="true" inputId="binary" (onChange)="checkValue($event)"></p-checkbox>
+  <label for="binary">Allow Navigation</label>
+</div>
+
+<div class="field-checkbox">
+  <p-checkbox [(ngModel)]="hideChecked" [binary]="true" inputId="binary" (onChange)="checkHideValue($event)"></p-checkbox>
+  <label for="binary">Hide Logo</label>
+</div>
+
+<p-colorPicker [(ngModel)]="bgColor" [inline]="true"></p-colorPicker>
+<button pButton type="button" label="Update BG" class="p-button-sm" (click)="updateBG($event)"></button>
